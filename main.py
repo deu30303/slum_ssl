@@ -194,100 +194,100 @@ def main(args):
     """
         ST++ framework with selective re-training
     """
-#     # <===================================== Select Reliable IDs =====================================>
-#     print('\n\n\n================> Total stage 2/6: Select reliable images for the 1st stage re-training')
+    # <===================================== Select Reliable IDs =====================================>
+    print('\n\n\n================> Total stage 2/6: Select reliable images for the 1st stage re-training')
 
-#     dataset = SemiDataset(args.dataset, args.data_root, 'label', None, None, args.unlabeled_id_path,
-#                           transform=traintransform, s_transform=strongtransform, normalize=normalize)
-#     dataloader = DataLoader(dataset, batch_size=1, shuffle=False, pin_memory=True, num_workers=2, drop_last=False)
+    dataset = SemiDataset(args.dataset, args.data_root, 'label', None, None, args.unlabeled_id_path,
+                          transform=traintransform, s_transform=strongtransform, normalize=normalize)
+    dataloader = DataLoader(dataset, batch_size=1, shuffle=False, pin_memory=True, num_workers=2, drop_last=False)
 
-#     select_reliable(checkpoints, dataloader, args)
+    select_reliable(checkpoints, dataloader, args)
 
-#     # <================================ Pseudo label reliable images =================================>
-#     print('\n\n\n================> Total stage 3/6: Pseudo labeling reliable images')
+    # <================================ Pseudo label reliable images =================================>
+    print('\n\n\n================> Total stage 3/6: Pseudo labeling reliable images')
 
-#     cur_unlabeled_id_path = os.path.join(args.reliable_id_path, 'reliable_ids.txt')
-#     dataset = SemiDataset(args.dataset, args.data_root, 'label', None, None, cur_unlabeled_id_path,
-#                           transform=traintransform, s_transform=strongtransform, normalize=normalize)
-#     dataloader = DataLoader(dataset, batch_size=1, shuffle=False, pin_memory=True, num_workers=2, drop_last=False)
+    cur_unlabeled_id_path = os.path.join(args.reliable_id_path, 'reliable_ids.txt')
+    dataset = SemiDataset(args.dataset, args.data_root, 'label', None, None, cur_unlabeled_id_path,
+                          transform=traintransform, s_transform=strongtransform, normalize=normalize)
+    dataloader = DataLoader(dataset, batch_size=1, shuffle=False, pin_memory=True, num_workers=2, drop_last=False)
 
-#     label(t_model, dataloader, args)
+    label(t_model, dataloader, args)
 
-#     # <================================== The 1st stage re-training ==================================>
-#     print('\n\n\n================> Total stage 4/6: The 1st stage re-training on labeled and reliable unlabeled images')
+    # <================================== The 1st stage re-training ==================================>
+    print('\n\n\n================> Total stage 4/6: The 1st stage re-training on labeled and reliable unlabeled images')
 
-#     MODE = 'train'
+    MODE = 'train'
 
-#     labelset = SemiDataset(args.dataset, args.data_root, MODE, args.crop_size,
-#                            args.labeled_id_path, cur_unlabeled_id_path, args.pseudo_mask_path,
-#                            transform=traintransform, s_transform=strongtransform, normalize=normalize)
-#     labelloader = DataLoader(labelset, batch_size=args.batch_size, shuffle=True, pin_memory=True, num_workers=4, drop_last=True)
+    labelset = SemiDataset(args.dataset, args.data_root, MODE, args.crop_size,
+                           args.labeled_id_path, cur_unlabeled_id_path, args.pseudo_mask_path,
+                           transform=traintransform, s_transform=strongtransform, normalize=normalize)
+    labelloader = DataLoader(labelset, batch_size=args.batch_size, shuffle=True, pin_memory=True, num_workers=4, drop_last=True)
     
-#     MODE = 'semi_train_un'
+    MODE = 'semi_train_un'
 
-#     unlabelset = SemiDataset(args.dataset, args.data_root, MODE, args.crop_size,
-#                            args.labeled_id_path, cur_unlabeled_id_path, args.pseudo_mask_path,
-#                            transform=traintransform, s_transform=strongtransform, normalize=normalize)
-#     unlabelloader = DataLoader(unlabelset, batch_size=args.batch_size, shuffle=True, pin_memory=True, num_workers=4, drop_last=True)
+    unlabelset = SemiDataset(args.dataset, args.data_root, MODE, args.crop_size,
+                           args.labeled_id_path, cur_unlabeled_id_path, args.pseudo_mask_path,
+                           transform=traintransform, s_transform=strongtransform, normalize=normalize)
+    unlabelloader = DataLoader(unlabelset, batch_size=args.batch_size, shuffle=True, pin_memory=True, num_workers=4, drop_last=True)
 
-#     model, optimizer = init_basic_elems(args)
+    model, optimizer = init_basic_elems(args)
 
-#     t_model = train_un(model, teacher_model, labelloader, unlabelloader, valloader, criterion, optimizer, args)
+    t_model = train_un(model, teacher_model, labelloader, unlabelloader, valloader, criterion, optimizer, args)
 
-#     # <=============================== Pseudo label unreliable images ================================>
-#     print('\n\n\n================> Total stage 5/6: Pseudo labeling unreliable images')
+    # <=============================== Pseudo label unreliable images ================================>
+    print('\n\n\n================> Total stage 5/6: Pseudo labeling unreliable images')
 
-#     cur_unlabeled_id_path = os.path.join(args.reliable_id_path, 'unreliable_ids.txt')
-#     dataset = SemiDataset(args.dataset, args.data_root, 'label', None, None, cur_unlabeled_id_path,
-#     transform=traintransform, s_transform=strongtransform, normalize=normalize)
-#     dataloader = DataLoader(dataset, batch_size=1, shuffle=False, pin_memory=True, num_workers=2, drop_last=False)
+    cur_unlabeled_id_path = os.path.join(args.reliable_id_path, 'unreliable_ids.txt')
+    dataset = SemiDataset(args.dataset, args.data_root, 'label', None, None, cur_unlabeled_id_path,
+    transform=traintransform, s_transform=strongtransform, normalize=normalize)
+    dataloader = DataLoader(dataset, batch_size=1, shuffle=False, pin_memory=True, num_workers=2, drop_last=False)
 
-#     label(t_model, dataloader, args)
+    label(t_model, dataloader, args)
 
-#     # <================================== The 2nd stage re-training ==================================>
-#     print('\n\n\n================> Total stage 6/6: The 2nd stage re-training on labeled and all unlabeled images')
+    # <================================== The 2nd stage re-training ==================================>
+    print('\n\n\n================> Total stage 6/6: The 2nd stage re-training on labeled and all unlabeled images')
 
-#     MODE = 'train'
+    MODE = 'train'
 
-#     labelset = SemiDataset(args.dataset, args.data_root, MODE, args.crop_size,
-#                            args.labeled_id_path, cur_unlabeled_id_path, args.pseudo_mask_path,
-#                            transform=traintransform, s_transform=strongtransform, normalize=normalize)
-#     labelloader = DataLoader(labelset, batch_size=args.batch_size, shuffle=True, pin_memory=True, num_workers=4, drop_last=True)
+    labelset = SemiDataset(args.dataset, args.data_root, MODE, args.crop_size,
+                           args.labeled_id_path, cur_unlabeled_id_path, args.pseudo_mask_path,
+                           transform=traintransform, s_transform=strongtransform, normalize=normalize)
+    labelloader = DataLoader(labelset, batch_size=args.batch_size, shuffle=True, pin_memory=True, num_workers=4, drop_last=True)
     
-#     MODE = 'semi_train_un'
+    MODE = 'semi_train_un'
 
-#     unlabelset = SemiDataset(args.dataset, args.data_root, MODE, args.crop_size,
-#                            args.labeled_id_path, cur_unlabeled_id_path, args.pseudo_mask_path,
-#                            transform=traintransform, s_transform=strongtransform, normalize=normalize)
-#     unlabelloader = DataLoader(unlabelset, batch_size=args.batch_size, shuffle=True, pin_memory=True, num_workers=4, drop_last=True)
+    unlabelset = SemiDataset(args.dataset, args.data_root, MODE, args.crop_size,
+                           args.labeled_id_path, cur_unlabeled_id_path, args.pseudo_mask_path,
+                           transform=traintransform, s_transform=strongtransform, normalize=normalize)
+    unlabelloader = DataLoader(unlabelset, batch_size=args.batch_size, shuffle=True, pin_memory=True, num_workers=4, drop_last=True)
 
-#     model, optimizer = init_basic_elems(args)
+    model, optimizer = init_basic_elems(args)
 
-#     t_model = train_un(model, t_model, labelloader, unlabelloader, valloader, criterion, optimizer, t_optimizer,  args)
+    t_model = train_un(model, t_model, labelloader, unlabelloader, valloader, criterion, optimizer, t_optimizer,  args)
 
 
-# def init_basic_elems(args):
-#     model_zoo = {'deeplabv3plusaux':DeepLabV3Plus_Aux, 'deeplabv3plus': DeepLabV3Plus, 'pspnet': PSPNet, 'deeplabv2': DeepLabV2}
-#     if args.model == 'deeplabv3plusaux':
-#         model = model_zoo[args.model](args.backbone, dilations=[6, 12, 18], nclass=2)
-#     else:
-#         model = model_zoo[args.model](args.backbone, nclass=2)
+def init_basic_elems(args):
+    model_zoo = {'deeplabv3plusaux':DeepLabV3Plus_Aux, 'deeplabv3plus': DeepLabV3Plus, 'pspnet': PSPNet, 'deeplabv2': DeepLabV2}
+    if args.model == 'deeplabv3plusaux':
+        model = model_zoo[args.model](args.backbone, dilations=[6, 12, 18], nclass=2)
+    else:
+        model = model_zoo[args.model](args.backbone, nclass=2)
 
-#     head_lr_multiple = 10.0
-#     if args.model == 'deeplabv2':
-#         assert args.backbone == 'resnet101'
-#         model.load_state_dict(torch.load('pretrained/deeplabv2_resnet101_coco_pretrained.pth'))
-#         head_lr_multiple = 1.0
+    head_lr_multiple = 10.0
+    if args.model == 'deeplabv2':
+        assert args.backbone == 'resnet101'
+        model.load_state_dict(torch.load('pretrained/deeplabv2_resnet101_coco_pretrained.pth'))
+        head_lr_multiple = 1.0
 
-#     optimizer = SGD([{'params': model.backbone.parameters(), 'lr': args.lr},
-#                      {'params': [param for name, param in model.named_parameters()
-#                                  if 'backbone' not in name],
-#                       'lr': args.lr * head_lr_multiple}],
-#                     lr=args.lr, momentum=0.9, weight_decay=1e-4)
+    optimizer = SGD([{'params': model.backbone.parameters(), 'lr': args.lr},
+                     {'params': [param for name, param in model.named_parameters()
+                                 if 'backbone' not in name],
+                      'lr': args.lr * head_lr_multiple}],
+                    lr=args.lr, momentum=0.9, weight_decay=1e-4)
 
-#     model = DataParallel(model).cuda()
+    model = DataParallel(model).cuda()
 
-#     return model, optimizer
+    return model, optimizer
 
 
 def train(model, trainloader, valloader, criterion, optimizer, args):
