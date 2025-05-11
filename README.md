@@ -1,3 +1,6 @@
+# Slum expansion during COVID-19: Mapping a decade of satellite imagery using minimal labels #
+This repo is the PyTorch code of our paper [Slum expansion during COVID-19: Mapping a decade of satellite imagery using minimal labels]
+
 ## Usage ##
 ```
 usage: main.py [-h] --data-root DATA_ROOT --dataset DATASET [--batch-size BATCH_SIZE] [--lr LR] [--epochs EPOCHS]
