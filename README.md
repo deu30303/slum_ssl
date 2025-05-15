@@ -1,5 +1,5 @@
-# Slum expansion during COVID-19: Mapping a decade of satellite imagery using minimal labels #
-This repo is the PyTorch code of our paper [Slum expansion during COVID-19: Mapping a decade of satellite imagery using minimal labels]
+# Sub-meter spatiotemporal mapping of slums using minimally supervised learning #
+This repo is the PyTorch code of our paper [Sub-meter spatiotemporal mapping of slums using minimally supervised learning]
 
 ## Overall model architecture ##
 <center><img src="./figure/model_arch.png"> </center>
